@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour {
     GameObject cookieObj; //作ったオブジェクトを保存する
     bool cookieHaveFlg = false;
 
-    List<GameObject> cookieLis = new List<GameObject>(); //作ったオブジェクトをリストで管理
-
 	void Start()
     {
 		
