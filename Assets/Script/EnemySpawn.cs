@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour {
-
+    //沸くクッキー
     public GameObject Cookie1;
+    //クッキーの沸きパターン
     private int Pattern;
+    //正負ランダム
     private int a;
 	void Start () {
         StartCoroutine("ESpawn");
