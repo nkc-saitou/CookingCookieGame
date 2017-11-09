@@ -11,11 +11,11 @@ public class SearchArea : MonoBehaviour {
 	
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "Player")
+        if (col.name == "PArea")
         {
             if (GameObject.FindGameObjectWithTag("Player"))
             {
-                float dist = 3.0f; // 距離3未満の範囲のクッキーを検知
+                float dist = 10.0f; // 距離3未満の範囲のクッキーを検知
                 GameObject[] cookies = null;
                 cookies = GameObject.FindGameObjectsWithTag("Player").
                 Where(e => Vector2.Distance(transform.position, e.transform.position) < dist).
@@ -26,7 +26,7 @@ public class SearchArea : MonoBehaviour {
     }
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.tag == "Player")
+        if (col.name == "PArea")
         {
             EM.nearestCookie = null;
         }
