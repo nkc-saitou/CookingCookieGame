@@ -8,6 +8,11 @@ TagManager:
   - ExitTable
   - Table
   - CookingTable
+  - ElemTable
+  - Cookie
+  - KneadTable
+  - BakingTable
+  - CookieEnemy
   layers:
   - Default
   - TransparentFX
@@ -17,10 +22,10 @@ TagManager:
   - UI
   - 
   - 
-  - Gate
-  - Enemy
-  - SearchArea
-  - Cookie
+  - GateLayer
+  - Player
+  - 
+  - 
   - 
   - 
   - 
