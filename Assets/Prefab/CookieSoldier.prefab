@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4024863103767152}
   - component: {fileID: 212263488186809340}
   - component: {fileID: 61565902982540808}
+  - component: {fileID: 50388777632426908}
+  - component: {fileID: 114304193702330972}
   m_Layer: 0
   m_Name: CookieSoldier
   m_TagString: Untagged
@@ -41,6 +43,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50388777632426908
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1909809191951996}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61565902982540808
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -66,6 +88,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &114304193702330972
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1909809191951996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db10842d44fb334189727737b5648bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212263488186809340
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -97,7 +130,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: bc230e5bc2c8dd34ab15ca2bbbcb4b91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

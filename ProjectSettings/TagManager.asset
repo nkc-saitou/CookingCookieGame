@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - ExitTable
+  - Table
+  - CookingTable
+  - ElemTable
+  - Cookie
+  - KneadTable
+  - BakingTable
+  - CookieEnemy
   layers:
   - Default
   - TransparentFX
@@ -14,8 +22,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - GateLayer
+  - Player
   - 
   - 
   - 

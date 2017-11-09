@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //===================================================
-// 出口オブジェクト
+// 出口オブジェクトクラス
 //===================================================
 [System.Serializable]
 public class DirectionName
@@ -32,6 +32,8 @@ public class DirectionName
     public DirName dirName;
 }
 
+//===================================================
+
 public class ExitTableController : MonoBehaviour
 {
     public GameObject cookieSoldierPre; //作ったクッキーのPrefab
@@ -46,13 +48,8 @@ public class ExitTableController : MonoBehaviour
     {
         foreach(DirectionName n in directionName)
         {
-            //フラグをリセット
-            if(n.destroyObj.transform.childCount == 0)
-            {
-                n.createOKflg = true;
-            }
-            //子オブジェクトがある状態で、フラグがリセットされていたら
-            else if (n.destroyObj.transform.childCount != 0 && n.createOKflg == true)
+            //子オブジェクトがある状態だったら
+            if (n.destroyObj.transform.childCount >= 1)
             {
                 //中で作ったクッキーを削除
                 Destroy(n.destroyObj.transform.GetChild(0).gameObject);
@@ -62,8 +59,6 @@ public class ExitTableController : MonoBehaviour
                     cookieSoldierPre, 
                     directionName[(int)n.dirName].createObj.transform.localPosition, 
                     Quaternion.identity,directionName[(int)n.dirName].createObj.transform);
-
-                n.createOKflg = false;
             }
         }
     }
