@@ -13,6 +13,9 @@ TagManager:
   - KneadTable
   - BakingTable
   - CookieEnemy
+  - CookieElem
+  - CookieKnead
+  - CookieBaking
   layers:
   - Default
   - TransparentFX

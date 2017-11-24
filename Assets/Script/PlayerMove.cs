@@ -9,24 +9,40 @@ public class PlayerMove : MonoBehaviour {
     //----------------------------------------------
     Rigidbody2D rg2d;
 
-    //----------------------------------------------
-    // public
-    //----------------------------------------------
-    [SerializeField,Header("移動速度"),Range(0,5)]
-    public float speed = 3.0f;
+    ////----------------------------------------------
+    //// public
+    ////----------------------------------------------
+    //[SerializeField, Header("移動速度"), Range(0, 5)]
+    //public float speed = 3.0f;
 
-    [SerializeField, Header("ゲームパッドでプレイするか")]
-    public bool PlayIsGamePad = false;
+    //[SerializeField, Header("ゲームパッドでプレイするか")]
+    //public bool PlayIsGamePad = false;
+
+    //public bool playerMulti = true;
+
+    PlayerSetting playerSetting;
+
+    ////----------------------------------------------
+    //// 列挙型
+    ////----------------------------------------------
+    //public enum PlayerNumber
+    //{
+    //    One = 1,
+    //    Two
+    //}
+
+    //public PlayerNumber playerNumber;
 
     //================================================
     void Start ()
     {
+        playerSetting = GetComponent<PlayerSetting>();
         rg2d = GetComponent<Rigidbody2D>();
 	}
 	
 	void Update ()
     {
-        if (PlayIsGamePad) Move_GamePad();
+        if (playerSetting.playIsGamePad) Move_GamePad();
         else Move();
         gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
@@ -38,8 +54,19 @@ public class PlayerMove : MonoBehaviour {
     //----------------------------------------------
     void Move_GamePad()
     {
-        rg2d.velocity = new Vector2(Input.GetAxis("L_JoyStick1_XAxis") * speed, Input.GetAxis("L_JoyStick1_YAxis") * speed);
+        switch (playerSetting.playerNum)
+        {
+            case 1:
+                rg2d.velocity = new Vector2(Input.GetAxis("L_JoyStick1_XAxis") * playerSetting.speed, Input.GetAxis("L_JoyStick1_YAxis") * playerSetting.speed);
+                break;
+
+            case 2:
+                rg2d.velocity = new Vector2(Input.GetAxis("L_JoyStick2_XAxis") * playerSetting.speed, Input.GetAxis("L_JoyStick2_YAxis") * playerSetting.speed);
+                break;
+        }
     }
+    
+    
 
     //=====================キー入力用の処理========================
 
@@ -48,6 +75,15 @@ public class PlayerMove : MonoBehaviour {
     //----------------------------------------------
     void Move()
     {
-        rg2d.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed);
+        switch (playerSetting.playerNum)
+        {
+            case 1:
+                rg2d.velocity = new Vector2(Input.GetAxis("Horizontal_1") * playerSetting.speed, Input.GetAxis("Vertical_1") * playerSetting.speed);
+                break;
+
+            case 2:
+                rg2d.velocity = new Vector2(Input.GetAxis("Horizontal_2") * playerSetting.speed, Input.GetAxis("Vertical_2") * playerSetting.speed);
+                break;
+        }
     }
 }

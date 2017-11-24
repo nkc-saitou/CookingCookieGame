@@ -17,9 +17,6 @@ public class DirectionName
     [Header("外のオブジェクト")]
     public GameObject createObj;
 
-    [System.NonSerialized]
-    public bool createOKflg = false;
-
     public enum DirName
     {
         North = 0, //北
