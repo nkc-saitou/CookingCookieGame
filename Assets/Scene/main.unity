@@ -378,6 +378,11 @@ Prefab:
       propertyPath: cookingBowl
       value: 
       objectReference: {fileID: 480732413}
+    - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
+        type: 2}
+      propertyPath: playIsGamePad
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed838def49919a647afc1162334b112e, type: 2}
   m_IsPrefabParent: 0
@@ -597,6 +602,11 @@ Prefab:
       objectReference: {fileID: 480732413}
     - target: {fileID: 1383373810563832, guid: 4457bde458a3fba42aa28235e4f2a063, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
+        type: 2}
+      propertyPath: playIsGamePad
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1027,6 +1037,7 @@ GameObject:
   - component: {fileID: 782402061}
   - component: {fileID: 782402060}
   - component: {fileID: 782402059}
+  - component: {fileID: 782402064}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1104,6 +1115,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &782402064
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 782402058}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9c84b6227b787584cbe6fc1c99fbc3d5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &905571824
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour
 
         //KeyDebugWindow();
 
-        //GamePadDebugWindow((GamePad.Index)GamePadNumber);
+        GamePadDebugWindow((GamePad.Index)GamePadNumber);
     }
 
     /// <summary>

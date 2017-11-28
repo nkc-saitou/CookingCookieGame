@@ -259,6 +259,5 @@ namespace GamepadInput
 
         public float LeftTrigger = 0;
         public float RightTrigger = 0;
-
     }
 }

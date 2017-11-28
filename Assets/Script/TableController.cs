@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using GamepadInput;
 
 public class TableController : MonoBehaviour {
 
@@ -56,12 +58,12 @@ public class TableController : MonoBehaviour {
         StartCoroutine(FloorPut());
     }
 
-    string OnButtonName()
+    bool OnButtonManager()
     {
-        if (playerSetting.playerNum == 1 && playerSetting.playIsGamePad) return "JoyStick_1_Action1";
-        else if (playerSetting.playerNum == 2 && playerSetting.playIsGamePad) return "JoyStick_2_Action;";
-        else if (playerSetting.playerNum == 1 && playerSetting.playIsGamePad == false) return "Fire2";
-        else return "Fire1";
+        if (playerSetting.playerNum == 1 && playerSetting.playIsGamePad) return Input.GetButtonDown("JoyStick_1_Action1");
+        else if (playerSetting.playerNum == 2 && playerSetting.playIsGamePad) return Input.GetButtonDown("JoyStick_2_Action1");
+        else if (playerSetting.playerNum == 1 && playerSetting.playIsGamePad == false) return Input.GetButtonDown("Fire2");
+        else return Input.GetButtonDown("Fire1");
     }
 
     //----------------------------------------------------
@@ -76,7 +78,7 @@ public class TableController : MonoBehaviour {
             col.gameObject.tag != "BakingTable" &&
             col.gameObject.tag != "ExitTable") return;
 
-        if(Input.GetButtonDown(OnButtonName()))
+        if(OnButtonManager())
         {
             //クッキーの素を出す
             ElemTablerOut(col.gameObject);
@@ -102,7 +104,7 @@ public class TableController : MonoBehaviour {
             col.tag != "CookieKnead" &&
             col.tag != "CookieBaking") return;
 
-        if(Input.GetButtonDown(OnButtonName()))
+        if(OnButtonManager())
         {
             col.transform.parent = transform;
         }
@@ -141,15 +143,23 @@ public class TableController : MonoBehaviour {
     void KneadTablePut(GameObject col_KneadPut)
     {
         //プレイヤーが子オブジェクトを持っていなければ終了
-        if (HaveChildObj(gameObject) == false) return;
+        if (HaveChildObj(gameObject) == false && childObj == null) return;
 
-        // 衝突した机がKneadTableであり、クッキーの素を持っていたら
-        if (col_KneadPut.gameObject.tag == "KneadTable" &&
-            childObj.tag == "CookieElem")
+        //try/catch ブロック　で
+        try
         {
-            playerSetting.cookingBowl.sprite = playerSetting.bowlSp[1];
-            Destroy(childObj);
-            elemCookFlg = true;
+            // 衝突した机がKneadTableであり、クッキーの素を持っていたら
+            if (col_KneadPut.gameObject.tag == "KneadTable" &&
+                childObj.tag == "CookieElem")
+            {
+                playerSetting.cookingBowl.sprite = playerSetting.bowlSp[1];
+                Destroy(childObj);
+                elemCookFlg = true;
+            }
+        }
+        catch (NullReferenceException ex)
+        {
+            Debug.Log("Object reference not set to an instance of an object");
         }
     }
 
@@ -161,12 +171,19 @@ public class TableController : MonoBehaviour {
         //プレイヤーが子オブジェクトを持っていなければ終了
         if (HaveChildObj(gameObject) == false) return;
 
-        //衝突した机がBakingTableであり、こねたクッキーを持っていたら
-        if (col_BakingPut.gameObject.tag == "BakingTable" &&
-            childObj.tag == "CookieKnead")
+        try
         {
-            Destroy(childObj);
-            kneadCookFlg = true;
+            //衝突した机がBakingTableであり、こねたクッキーを持っていたら
+            if (col_BakingPut.gameObject.tag == "BakingTable" &&
+                childObj.tag == "CookieKnead")
+            {
+                Destroy(childObj);
+                kneadCookFlg = true;
+            }
+        }
+        catch(NullReferenceException ex)
+        {
+            Debug.Log("Object reference not set to an instance of an object");
         }
     }
 
@@ -178,22 +195,30 @@ public class TableController : MonoBehaviour {
         //子オブジェクトを持っていたら終了
         if (HaveChildObj(col_TablePut)) return;
 
-        //衝突した机がTableであったら
-        if (col_TablePut.gameObject.tag == "Table" ||
-            col_TablePut.gameObject.tag == "ExitTable")
+        try
         {
-            //持っているオブジェクトを机の真ん中に置く
-            childObj.transform.position = col_TablePut.transform.position;
+            //衝突した机がTableであったら
+            if (col_TablePut.gameObject.tag == "Table" ||
+                col_TablePut.gameObject.tag == "ExitTable" &&
+                childObj.tag == "CookieBaking")
+            {
+                //持っているオブジェクトを机の真ん中に置く
+                childObj.transform.position = col_TablePut.transform.position;
 
-            //置いたオブジェクトを机の子オブジェクトにする
-            childObj.transform.parent = col_TablePut.transform;
+                //置いたオブジェクトを机の子オブジェクトにする
+                childObj.transform.parent = col_TablePut.transform;
 
-            //クッキーの描画順を変える
-            SpriteRenderer cookieObjRenderer = childObj.GetComponent<SpriteRenderer>();
-            cookieObjRenderer.sortingOrder = 1;
+                //クッキーの描画順を変える
+                SpriteRenderer cookieObjRenderer = childObj.GetComponent<SpriteRenderer>();
+                cookieObjRenderer.sortingOrder = 1;
 
-            //プレイヤーとクッキーの親子関係を解除する
-            transform.DetachChildren();
+                //プレイヤーとクッキーの親子関係を解除する
+                transform.DetachChildren();
+            }
+        }
+        catch(NullReferenceException ex)
+        {
+            Debug.Log("Object reference not set to an instance of an object");
         }
     }
 
@@ -208,7 +233,7 @@ public class TableController : MonoBehaviour {
         // オブジェクトを持った時にすぐに離してしまうのを防止
         yield return new WaitForSeconds(0.5f);
 
-        if(Input.GetButtonDown(OnButtonName()))
+        if(OnButtonManager())
         {
             // 親子関係を解除
             transform.DetachChildren();
