@@ -31,10 +31,6 @@ public class PlayerSetting : MonoBehaviour {
 
     [System.NonSerialized]
     public int playerNum;
-    //----------------------------------------------------
-    // private
-    //----------------------------------------------------
-
 
     //----------------------------------------------------
     // 列挙型
@@ -63,7 +59,7 @@ public class PlayerSetting : MonoBehaviour {
     //-----------------------------------
     void GamePlayers()
     {
-        switch(playerNumber)
+        switch (playerNumber)
         {
             case PlayerNumber.One:
                 playerNum = 1;

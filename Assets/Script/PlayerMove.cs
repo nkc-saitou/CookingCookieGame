@@ -9,31 +9,8 @@ public class PlayerMove : MonoBehaviour {
     //----------------------------------------------
     Rigidbody2D rg2d;
 
-    ////----------------------------------------------
-    //// public
-    ////----------------------------------------------
-    //[SerializeField, Header("移動速度"), Range(0, 5)]
-    //public float speed = 3.0f;
-
-    //[SerializeField, Header("ゲームパッドでプレイするか")]
-    //public bool PlayIsGamePad = false;
-
-    //public bool playerMulti = true;
-
     PlayerSetting playerSetting;
 
-    ////----------------------------------------------
-    //// 列挙型
-    ////----------------------------------------------
-    //public enum PlayerNumber
-    //{
-    //    One = 1,
-    //    Two
-    //}
-
-    //public PlayerNumber playerNumber;
-
-    //================================================
     void Start ()
     {
         playerSetting = GetComponent<PlayerSetting>();
@@ -66,8 +43,6 @@ public class PlayerMove : MonoBehaviour {
         }
     }
     
-    
-
     //=====================キー入力用の処理========================
 
     //----------------------------------------------

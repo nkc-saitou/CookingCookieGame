@@ -6,9 +6,6 @@ using System;
 
 public class CookieSoldier : MonoBehaviour {
 
-    //[Header("クッ菌の親オブジェクト：北 南 東 西")]
-    //public GameObject[] cookieDir;
-
     int HP = 3;
 
     void Start ()
