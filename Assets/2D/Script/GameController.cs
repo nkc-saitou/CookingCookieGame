@@ -62,7 +62,8 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
         if (cookTimeCount <= time)
         {
-            cookTimeCount += Time.deltaTime;
+            cookTimeCount += 1 * Time.deltaTime;
+            Debug.Log(cookTimeCount);
         }
         else
         {

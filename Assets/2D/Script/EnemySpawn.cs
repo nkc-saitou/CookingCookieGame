@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour {
+
+    //臨時追加　
+    public GameObject enemyCookieParent;
+
     //沸くクッキー
     public GameObject Cookie1;
     //クッキーの沸きパターン
@@ -23,7 +27,7 @@ public class EnemySpawn : MonoBehaviour {
         switch (Pattern = Random.Range(1, 3))
         {
             case 1://上下のクッキーの沸き
-                GameObject Cookie = Instantiate(Cookie1, new Vector3(Random.Range(-5.5f, 5.5f), 5 * a, 0), Quaternion.identity);
+                GameObject Cookie = Instantiate(Cookie1, new Vector3(Random.Range(-5.5f, 5.5f), 5 * a, 0), Quaternion.identity, enemyCookieParent.transform);
                 EnemyMove EM = Cookie.GetComponent<EnemyMove>();
                 EM.pos = transform.position;
                 EM.pos.x = 3.5f * a; EM.pos.y = 0;
@@ -32,7 +36,7 @@ public class EnemySpawn : MonoBehaviour {
                 break;
 
             case 2://左右のクッキーの沸き
-                GameObject cooKie = Instantiate(Cookie1, new Vector3(9 * a, Random.Range(-4f, 4f), 0), Quaternion.identity);
+                GameObject cooKie = Instantiate(Cookie1, new Vector3(9 * a, Random.Range(-4f, 4f), 0), Quaternion.identity,enemyCookieParent.transform);
                 EnemyMove _EM = cooKie.GetComponent<EnemyMove>();
                 _EM.pos = transform.position;
                 _EM.pos.x = 0; _EM.pos.y = 4.5f * a;

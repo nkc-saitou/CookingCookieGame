@@ -16,6 +16,7 @@ TagManager:
   - CookieElem
   - CookieKnead
   - CookieBaking
+  - EnemyObj
   layers:
   - Default
   - TransparentFX

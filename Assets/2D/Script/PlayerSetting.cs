@@ -23,6 +23,10 @@ public class PlayerSetting : MonoBehaviour {
     public SpriteRenderer cookingBowl;
     public Sprite[] bowlSp;
 
+    //オーブンのスプライトを変更
+    public SpriteRenderer cookingOven;
+    public Sprite[] ovenSp;
+
     [SerializeField, Header("移動速度"), Range(0, 5)]
     public float speed = 3.0f;
 
