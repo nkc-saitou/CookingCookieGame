@@ -20,20 +20,30 @@ public class TableController : MonoBehaviour
 
     float waitCookingTime = 1.0f; //調理にかかる時間
 
+    int childCount = 0;
+
     //----------------------------------------------------
     //　子オブジェクトがあるかどうかを調べる
     //  あったらtrue, なかったらfalseを返す
     //----------------------------------------------------
     bool HaveChildObj(GameObject obj)
     {
-        if (obj.transform.childCount < 1) return false;
-        else return true;
+        if (obj.transform.childCount < childCount + 1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     void Start()
     {
         gameController = new GameController();
         playerSetting = GetComponent<PlayerSetting>();
+
+        childCount = transform.childCount;
     }
 
     void Update()
@@ -92,7 +102,7 @@ public class TableController : MonoBehaviour
     //----------------------------------------------------
     void OnTriggerStay(Collider col)
     {
-        if (transform.childCount >= 1) return;
+        if (transform.childCount >= childCount + 1) return;
 
         if (col.tag != "CookieElem" &&
             col.tag != "CookieKnead" &&
@@ -110,9 +120,15 @@ public class TableController : MonoBehaviour
     void HaveCookieManager()
     {
         //子オブジェクトの特定
-        if (transform.childCount >= 1) childObj = transform.GetChild(0).gameObject;
+        if (transform.childCount >= childCount + 1)
+        {
+            childObj = transform.GetChild(childCount).gameObject;
+        }
         //子オブジェクトを持っていなかったら初期化
-        else if (transform.childCount < 0) childObj = null;
+        else if (transform.childCount < childCount)
+        {
+            childObj = null;
+        }
     }
 
     //----------------------------------------------------
@@ -143,7 +159,7 @@ public class TableController : MonoBehaviour
         try
         {
             //衝突した机がKneadTableであり、クッキーの素を持っていたら
-            if (childObj != null &&
+            if (childObj != null &
                 colObj.gameObject.tag == "KneadTable" &&
                 childObj.tag == "CookieElem" &&
                 GameController.kneadCookFlg == false)
@@ -210,8 +226,8 @@ public class TableController : MonoBehaviour
                 //置いたオブジェクトを机の子オブジェクトにする
                 childObj.transform.parent = colObj.transform;
 
-                //プレイヤーとクッキーの親子関係を解除する
-                transform.DetachChildren();
+                ////プレイヤーとクッキーの親子関係を解除する
+                //childObj.transform.parent = null;
             }
         }
         catch (NullReferenceException ex)
@@ -257,12 +273,12 @@ public class TableController : MonoBehaviour
         }
     }
 
-    void TableCookieOut(GameObject colObj)
-    {
-        //テーブルになにもおいていない、または
-        if (HaveChildObj(colObj.gameObject) == false ||
-            HaveChildObj(gameObject)) return;
-    }
+    //void TableCookieOut(GameObject colObj)
+    //{
+    //    //テーブルになにもおいていない、または
+    //    if (HaveChildObj(colObj.gameObject) == false ||
+    //        HaveChildObj(gameObject)) return;
+    //}
 
     //----------------------------------------------------
     //クッキー☆を床に置くときの処理
@@ -274,12 +290,10 @@ public class TableController : MonoBehaviour
 
         if (Input.GetButtonUp(playerSetting.keyAction_2) && childObj != null)
         {
-
-            childPos.y = gameObject.transform.position.y;
-            childObj.transform.position = childPos;
+            childObj.transform.position = gameObject.transform.position;
 
             // 親子関係を解除
-            transform.DetachChildren();
+            childObj.transform.parent = null;
 
             // 子オブジェクトを初期化
             childObj = null;

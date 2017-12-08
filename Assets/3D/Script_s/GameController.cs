@@ -5,7 +5,6 @@ using System;
 
 public class GameController : SingletonMonoBehaviour<GameController>
 {
-
     //----------------------------------------------------
     // public
     //----------------------------------------------------

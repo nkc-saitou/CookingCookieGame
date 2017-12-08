@@ -19,6 +19,5 @@ public class GamePadNameTest : MonoBehaviour {
 
         // 一台もコントローラが接続されていなければエラー
         if (controllerNames[0] == "") Debug.Log("Error");
-
     }
 }

@@ -19,7 +19,13 @@ public class PlayerSetting : MonoBehaviour {
     [Header("焼いたクッキー")]
     public GameObject bakingPre;
 
-    [SerializeField, Header("移動速度"), Range(0, 5)]
+    [Header("チョコレート")]
+    public GameObject chocolate;
+
+    [Header("ジャム")]
+    public GameObject jam;
+
+    [SerializeField, Header("移動速度"), Range(0, 10)]
     public float speed = 3.0f;
 
     [SerializeField, Header("ゲームパッドでプレイするか")]

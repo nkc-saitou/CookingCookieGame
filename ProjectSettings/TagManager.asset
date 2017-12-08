@@ -17,6 +17,8 @@ TagManager:
   - CookieKnead
   - CookieBaking
   - EnemyObj
+  - ChocolateTable
+  - JamTable
   layers:
   - Default
   - TransparentFX

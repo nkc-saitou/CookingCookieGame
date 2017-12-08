@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour {
     PlayerSetting playerSetting;
 
     float move_x = 0, move_z = 0; //ｘ、ｙの移動用変数
-    float rotateSpeed = 2.0f; //回転スピード
+    float rotateSpeed = 5.0f; //回転スピード
 
     void Start ()
     {
