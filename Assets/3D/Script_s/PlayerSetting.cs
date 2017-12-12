@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(TableController))]
-[RequireComponent(typeof(PlayerMove))]
+//[RequireComponent(typeof(TableController))]
+//[RequireComponent(typeof(PlayerMove))]
 public class PlayerSetting : MonoBehaviour {
 
     //----------------------------------------------------
     // public
     //----------------------------------------------------
 
-    [Header("クッキーの素")]
-    public GameObject elemPre;
+    //[Header("クッキーの素")]
+    //public GameObject elemPre;
 
-    [Header("こねたクッキー")]
-    public GameObject kneadPre;
+    //[Header("こねたクッキー")]
+    //public GameObject kneadPre;
 
-    [Header("焼いたクッキー")]
-    public GameObject bakingPre;
+    //[Header("焼いたクッキー")]
+    //public GameObject bakingPre;
 
-    [Header("チョコレート")]
-    public GameObject chocolate;
+    //[Header("チョコレート")]
+    //public GameObject chocolatePre;
 
-    [Header("ジャム")]
-    public GameObject jam;
+    //[Header("ジャム")]
+    //public GameObject jamPre;
 
     [SerializeField, Header("移動速度"), Range(0, 10)]
     public float speed = 3.0f;
@@ -63,11 +63,6 @@ public class PlayerSetting : MonoBehaviour {
         GamePlayers();
         KeySetting();
     }
-	
-	void Update ()
-    {
-		
-	}
 
     //-----------------------------------
     // 対応した仮想入力キーの取得

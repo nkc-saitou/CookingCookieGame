@@ -11,8 +11,10 @@ public class TableController : MonoBehaviour
     //----------------------------------------------------
 
     GameObject childObj; //現在持っている子オブジェクト
+
     PlayerSetting playerSetting;
     GameController gameController;
+    TableManager tableManager;
 
     Vector3 childPos; //子オブジェクトの位置調整
 
@@ -28,20 +30,16 @@ public class TableController : MonoBehaviour
     //----------------------------------------------------
     bool HaveChildObj(GameObject obj)
     {
-        if (obj.transform.childCount < childCount + 1)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        if (obj.transform.childCount < childCount + 1) return false;
+        else return true;
     }
 
     void Start()
     {
         gameController = new GameController();
+
         playerSetting = GetComponent<PlayerSetting>();
+        tableManager = transform.parent.GetComponent<TableManager>();
 
         childCount = transform.childCount;
     }
@@ -79,7 +77,9 @@ public class TableController : MonoBehaviour
             col.gameObject.tag != "ElemTable" &&
             col.gameObject.tag != "KneadTable" &&
             col.gameObject.tag != "BakingTable" &&
-            col.gameObject.tag != "ExitTable") return;
+            col.gameObject.tag != "ExitTable" &&
+            col.gameObject.tag != "ChocolateTable" &&
+            col.gameObject.tag != "JamTable") return;
 
         if (Input.GetButtonDown(playerSetting.keyAction))
         {
@@ -139,11 +139,24 @@ public class TableController : MonoBehaviour
         //プレイヤーに子オブジェクトがあったら終了
         if (HaveChildObj(gameObject)) return;
 
-        //衝突した机がElemTable
-        if (colObj.gameObject.tag == "ElemTable")
+        switch(colObj.gameObject.tag)
         {
-            //クッキーの素を生成し、プレイヤーの子オブジェクトにする
-            Instantiate(playerSetting.elemPre, transform);
+            case "ElemTable":
+                //クッキーの素を生成し、プレイヤーの子オブジェクトにする
+                Instantiate(tableManager.elemPre, transform);
+                break;
+
+            case "ChocolateTable":
+                Instantiate(tableManager.chocolatePre, transform);
+                break;
+
+            case "JamTable":
+                Instantiate(tableManager.jamPre, transform);
+                break;
+
+            case "KneadTable":
+                Instantiate(tableManager.kneadPre, transform);
+                break;
         }
     }
 
@@ -190,7 +203,6 @@ public class TableController : MonoBehaviour
                 childObj.tag == "CookieKnead" &&
                 GameController.bakingCookFlg == false)
             {
-
                 GameController.bakingCookFlg = true;
 
                 waitCookingTime = 2.0f;
@@ -248,7 +260,7 @@ public class TableController : MonoBehaviour
 
         if (colObj.gameObject.tag == "KneadTable")
         {
-            Instantiate(playerSetting.kneadPre, transform);
+            Instantiate(tableManager.kneadPre, transform);
 
             //ボウルに何も入っていない状態にする
             GameController.kneadCookFlg = false;
@@ -265,20 +277,13 @@ public class TableController : MonoBehaviour
 
         if (colObj.gameObject.tag == "BakingTable" && GameController.cookingTimeFlg)
         {
-            Instantiate(playerSetting.bakingPre, transform);
+            Instantiate(tableManager.bakingPre, transform);
 
             cookingStartFlg = false;
             GameController.cookingTimeFlg = false;
             GameController.bakingCookFlg = false;
         }
     }
-
-    //void TableCookieOut(GameObject colObj)
-    //{
-    //    //テーブルになにもおいていない、または
-    //    if (HaveChildObj(colObj.gameObject) == false ||
-    //        HaveChildObj(gameObject)) return;
-    //}
 
     //----------------------------------------------------
     //クッキー☆を床に置くときの処理

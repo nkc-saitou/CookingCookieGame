@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class GameController : SingletonMonoBehaviour<GameController>
 {
@@ -19,6 +20,11 @@ public class GameController : SingletonMonoBehaviour<GameController>
     //----------------------------------------------------
     GameObject childObj;
 
+    int childCount = 0;
+
+    //public Text testText;
+    //public Text flgText;
+
     float cookTimeCount = 0; //クッキーを調理する時間
 
     public void Awake()
@@ -32,12 +38,13 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     void Start()
     {
-
     }
 
     void Update()
     {
         KneadTableControl();
+        //testText.text = cookTimeCount.ToString();
+        //flgText.text = cookingTimeFlg.ToString();
     }
 
     //---------------------------------------------------
@@ -62,7 +69,6 @@ public class GameController : SingletonMonoBehaviour<GameController>
         if (cookTimeCount <= time)
         {
             cookTimeCount += 1 * Time.deltaTime;
-            Debug.Log(cookTimeCount);
         }
         else
         {
