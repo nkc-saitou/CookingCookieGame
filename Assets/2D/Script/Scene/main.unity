@@ -588,6 +588,11 @@ Prefab:
       propertyPath: ovenSp.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
+        type: 2}
+      propertyPath: bowlSp.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4215371961538460, guid: ed838def49919a647afc1162334b112e, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1.32
@@ -628,7 +633,7 @@ Prefab:
     - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
         type: 2}
       propertyPath: playIsGamePad
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
         type: 2}
@@ -646,6 +651,36 @@ Prefab:
       propertyPath: ovenSp.Array.data[1]
       value: 
       objectReference: {fileID: 21300000, guid: 7a3923a50723fa346afc3565f80d9103,
+        type: 3}
+    - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
+        type: 2}
+      propertyPath: elemPre
+      value: 
+      objectReference: {fileID: 1302129271868142, guid: 0ce2d29b0130eb64c8da9f9f6762eb1b,
+        type: 2}
+    - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
+        type: 2}
+      propertyPath: kneadPre
+      value: 
+      objectReference: {fileID: 1552093917651590, guid: 97d546df727e49246b4988b73b770520,
+        type: 2}
+    - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
+        type: 2}
+      propertyPath: bakingPre
+      value: 
+      objectReference: {fileID: 1473723652503730, guid: a2cd9d45d4b51e248a5678bf2bc4319d,
+        type: 2}
+    - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
+        type: 2}
+      propertyPath: bowlSp.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a620ca10c5ef06c45be922d7d7ce1ec7,
+        type: 3}
+    - target: {fileID: 114513798335100474, guid: ed838def49919a647afc1162334b112e,
+        type: 2}
+      propertyPath: bowlSp.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: f5499733e322402418f335eb6ee462e8,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed838def49919a647afc1162334b112e, type: 2}
@@ -833,6 +868,11 @@ Prefab:
       propertyPath: ovenSp.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
+        type: 2}
+      propertyPath: bowlSp.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4383448570893488, guid: 4457bde458a3fba42aa28235e4f2a063, type: 2}
       propertyPath: m_LocalPosition.x
       value: 2.76
@@ -873,7 +913,7 @@ Prefab:
     - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
         type: 2}
       propertyPath: playIsGamePad
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
         type: 2}
@@ -891,6 +931,36 @@ Prefab:
       propertyPath: ovenSp.Array.data[1]
       value: 
       objectReference: {fileID: 21300000, guid: 7a3923a50723fa346afc3565f80d9103,
+        type: 3}
+    - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
+        type: 2}
+      propertyPath: elemPre
+      value: 
+      objectReference: {fileID: 1302129271868142, guid: 0ce2d29b0130eb64c8da9f9f6762eb1b,
+        type: 2}
+    - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
+        type: 2}
+      propertyPath: kneadPre
+      value: 
+      objectReference: {fileID: 1552093917651590, guid: 97d546df727e49246b4988b73b770520,
+        type: 2}
+    - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
+        type: 2}
+      propertyPath: bakingPre
+      value: 
+      objectReference: {fileID: 1473723652503730, guid: a2cd9d45d4b51e248a5678bf2bc4319d,
+        type: 2}
+    - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
+        type: 2}
+      propertyPath: bowlSp.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a620ca10c5ef06c45be922d7d7ce1ec7,
+        type: 3}
+    - target: {fileID: 114519025720601918, guid: 4457bde458a3fba42aa28235e4f2a063,
+        type: 2}
+      propertyPath: bowlSp.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: f5499733e322402418f335eb6ee462e8,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4457bde458a3fba42aa28235e4f2a063, type: 2}

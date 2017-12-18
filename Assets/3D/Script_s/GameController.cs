@@ -2,23 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class GameController : SingletonMonoBehaviour<GameController>
 {
-
     //----------------------------------------------------
     // public
+    //----------------------------------------------------
+
+    public TableManager tableManager;
+
+    //----------------------------------------------------
+    // static
     //----------------------------------------------------
 
     public static bool kneadCookFlg = false;
     public static bool bakingCookFlg = false;
     public static bool cookingTimeFlg = false; //料理時間を満たしたかどうかをチェックする
     public static int kneadNecessary = 0; //粉クッキーを入れたかず
-
+    
+    //クッキーの判別　{0(elem),0(jum),0(chocolate)} 
+    public static int[] cookieType = new int[3];
     //----------------------------------------------------
     // private
     //----------------------------------------------------
     GameObject childObj;
+
+    int childCount = 0;
+
+    //public Text testText;
+    //public Text flgText;
 
     float cookTimeCount = 0; //クッキーを調理する時間
 
@@ -33,12 +46,14 @@ public class GameController : SingletonMonoBehaviour<GameController>
 
     void Start()
     {
-
+       
     }
 
     void Update()
     {
         KneadTableControl();
+        //testText.text = cookTimeCount.ToString();
+        //flgText.text = cookingTimeFlg.ToString();
     }
 
     //---------------------------------------------------
@@ -63,7 +78,6 @@ public class GameController : SingletonMonoBehaviour<GameController>
         if (cookTimeCount <= time)
         {
             cookTimeCount += 1 * Time.deltaTime;
-            Debug.Log(cookTimeCount);
         }
         else
         {
@@ -71,5 +85,13 @@ public class GameController : SingletonMonoBehaviour<GameController>
             cookingTimeFlg = true;
             return;
         }
+    }
+
+   public GameObject KneadCreateType()
+    {
+        if (cookieType[0] == 3) return tableManager.bakingPre_normal;
+        else if (cookieType[0] == 2 && cookieType[1] == 1) return tableManager.bakingPre_jam;
+        else if (cookieType[0] == 2 && cookieType[2] == 1) return tableManager.bakingPre_chocolate;
+        return tableManager.bakingPre_darkMatter;
     }
 }
