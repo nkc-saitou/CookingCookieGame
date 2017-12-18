@@ -17,6 +17,8 @@ TagManager:
   - CookieKnead
   - CookieBaking
   - EnemyObj
+  - Wall
+  - Prediction
   layers:
   - Default
   - TransparentFX

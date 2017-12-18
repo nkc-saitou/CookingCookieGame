@@ -1,143 +1,170 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using System.Linq;
 public class EnemyMove : MonoBehaviour {
 
     //行動パターン
-    public enum MovePattern {_Stalking,_WallAtack,_NormalMove,_CookieAtack}
+    public enum MovePattern {_Stalking,_Wall,_NormalMove,_CookieAtack,_Death}
     MovePattern movepattern=MovePattern._NormalMove;
 
-    //工場の入口前の座標
-    public Vector2 pos;
-    //工場内の座標
-    public Vector2 FactryGate;
+    NavMeshAgent NMA;
+
     // 現在位置
-    private Vector2 Position;
+    private Vector3 Position;
+    public int _HP = 1;
     //速さ
-    public Vector2 speed=new Vector2(0.01f,0.01f);
+    private Vector3 speed=new Vector3(0.1f,0f,0.1f);
 
     // ラジアン
     private float rad;
     //一番近いクッキー
-    public GameObject nearestCookie=null;
+    private GameObject nearestCookie=null;
 
-    //クッキーに隣接しているか
+    //クッキーに接触しているか
     private bool nearflg = false;
+    //クッキーが視界にいるか
+    private bool vision;
     //工場入口についたかどうか
-    private bool Gateflag = false;
-    bool wall = false;
+    private bool wall = false;
+
+    public GameObject NearestCookie
+    {
+        get { return nearestCookie; }
+        set { nearestCookie = value; }
+    }
 
     void Start () {
+        NMA = GetComponent<NavMeshAgent>();
+        NMA.stoppingDistance = 0.5f;
     }
-	
-	void Update () {
+
+    void Update()
+    {
+        if (_HP <= 0)
+        {
+            movepattern = MovePattern._Death;
+        }
+
         switch (movepattern)
         {
             case MovePattern._Stalking:
+                if (nearestCookie == null)
+                {
+                    movepattern = MovePattern._NormalMove;
+                    break;
+                }
+                if (nearflg)
+                {
+                    movepattern = MovePattern._CookieAtack;
+                    break;
+                }
                 Stalking();
                 break;
 
             case MovePattern._NormalMove:
+                if (wall)
+                {
+                    movepattern = MovePattern._Wall;
+                    break;
+                }
+                if (nearestCookie != null)
+                {
+                    movepattern = MovePattern._Stalking;
+                    break;
+                }
                 NormalMove();
                 break;
 
-            case MovePattern._WallAtack:
-                WallAtack();
+            case MovePattern._Wall:
+                if (nearestCookie != null)
+                {
+                    movepattern = MovePattern._Stalking;
+                    break;
+                }
+                if (wall == false)
+                {
+                    movepattern = MovePattern._NormalMove;
+                    break;
+                }
+                Wall();
                 break;
 
             case MovePattern._CookieAtack:
+                if (nearflg == false)
+                {
+                    movepattern = MovePattern._NormalMove;
+                    break;
+                }
                 CookieAtack();
                 break;
+
+            case MovePattern._Death:
+                Death();
+                break;
         }
+
     }
     
     void Stalking()
     {
-        if (nearestCookie == null && Gateflag == false)
-        {
-            movepattern = MovePattern._NormalMove;
-            return;
-        }
-        if (nearflg)
-        {
-            movepattern = MovePattern._CookieAtack;
-            return;
-        }
-
-            rad = Mathf.Atan2(
-                nearestCookie.transform.position.y - transform.position.y,
+        NMA.SetDestination(nearestCookie.transform.position);
+        /*    rad = Mathf.Atan2(
+                nearestCookie.transform.position.z - transform.position.z,
                 nearestCookie.transform.position.x - transform.position.x);
         Position = transform.position;
         Position.x += speed.x * Mathf.Cos(rad);
-        Position.y += speed.y * Mathf.Sin(rad);
-        transform.position = Position;
+        Position.z += speed.z * Mathf.Sin(rad);
+        transform.position = Position;*/
     }
 
     void NormalMove()
     {
-        if (wall)
-        {
-            movepattern = MovePattern._WallAtack;
-        }
-        if (nearestCookie!=null&& Gateflag == false)
-        {
-            movepattern = MovePattern._Stalking;
-        }
-
-            rad = Mathf.Atan2(
-                0 - transform.position.y,
-                0 - transform.position.x);
-                //pos.x - transform.position.y,
-                //pos.y - transform.position.x);
-        Position = transform.position;
-        Position.x += speed.x * Mathf.Cos(rad);
-        Position.y += speed.y * Mathf.Sin(rad);
-        transform.position = Position;
+           rad = Mathf.Atan2(
+               0 - transform.position.z,
+               0 - transform.position.x);
+       Position = transform.position;
+       Position.x += speed.x * Mathf.Cos(rad);
+       Position.z += speed.z * Mathf.Sin(rad);
+       transform.position = Position;
     }
 
-    void WallAtack()
+    void Wall()
     {
-        if (nearestCookie!=null  && Gateflag == false)
-        {
-            movepattern = MovePattern._Stalking;
-        }
+        
     }
 
     void CookieAtack()
     {
-        if (nearflg == false)
-        {
-            movepattern = MovePattern._NormalMove;
-        }
+        
     }
-    void OnTriggerEnter2D(Collider2D col)
+
+    void Death()
     {
-        /*if (col.name == "Gate")
-        {
-            pos.x = FactryGate.x;
-            pos.y = FactryGate.y;
-            Gateflag = true;
-        }*/
-        if (col.tag == "Player")
+        Destroy(gameObject);
+    }
+    void OnTriggerStay(Collider col)
+    {
+        if (col.tag == "Cookie")
         {
             nearflg = true;
         }
-        else if (col.name == "Wall")
+        if (col.tag == "Wall")
         {
             wall = true;
         }
         
     }
 
-    void OnTriggerExit2D(Collider2D col)
+    void OnTriggerExit(Collider col)
     {
-        if (col.tag == "Player")
+        if (col.tag == "Cookie")
         {
             nearflg = false;
         }
 
-        else if (col.name == "Wall")
+        if (col.tag == "Wall")
         {
             wall = false;
         }

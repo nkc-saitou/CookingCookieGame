@@ -4,31 +4,104 @@ using UnityEngine;
 using System.Linq;
 
 public class SearchArea : MonoBehaviour {
-    EnemyMove EM;
+    public enum Area { E_Area,C_Area}
+    public Area area;
+
+    private EnemyMove EM;
+    private CookieMove CM;
 	void Start () {
-        EM = GetComponentInParent<EnemyMove>();
-	}
-	
-    void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.name == "PArea")
+        switch (area)
         {
-            if (GameObject.FindGameObjectWithTag("Player"))
-            {
-                float dist = 10.0f; // 距離3未満の範囲のクッキーを検知
-                GameObject[] cookies = null;
-                cookies = GameObject.FindGameObjectsWithTag("Player").
-                Where(e => Vector2.Distance(transform.position, e.transform.position) < dist).
-                OrderBy(e => Vector2.Distance(transform.position, e.transform.position)).ToArray();
-                EM.nearestCookie = cookies[0];
-            }
+            case Area.C_Area:
+                CM = GetComponentInParent<CookieMove>();
+                break;
+            case Area.E_Area:
+                EM = GetComponentInParent<EnemyMove>();
+                break;
+        }
+	}
+	void Update()
+    {
+        switch (area)
+        {
+            case Area.C_Area:
+                if (GameObject.FindGameObjectWithTag("Enemy"))
+                {
+                    GameObject[] cookies = null;
+                    cookies = GameObject.FindGameObjectsWithTag("Enemy").
+                    OrderBy(e => Vector3.Distance(transform.position, e.transform.position)).ToArray();
+                    CM.NearestEnemy = cookies[0];
+                    
+                }
+                else if (GameObject.FindGameObjectWithTag("Prediction")){
+                    GameObject[] cookies = null;
+                    cookies = GameObject.FindGameObjectsWithTag("Prediction").
+                    OrderBy(e => Vector3.Distance(transform.position, e.transform.position)).ToArray();
+                    CM.NearestEnemy = cookies[0];
+                    break;
+                }
+                break;
+            case Area.E_Area:
+                break;
         }
     }
-    void OnTriggerExit2D(Collider2D col)
+
+    void OnTriggerEnter(Collider col)
     {
-        if (col.name == "PArea")
+        switch (area)
         {
-            EM.nearestCookie = null;
+            case Area.C_Area:
+                if (col.name == "EArea")
+                {
+                    CM.Atackarea = true;
+                }
+                break;
+            case Area.E_Area:
+                if (col.name == "CArea")
+                {
+                }
+                break;
         }
+    }
+    void OnTriggerStay(Collider col)
+    {
+        switch (area)
+        {
+            case Area.C_Area:
+                if (col.name == "EArea")
+                {
+                    CM.Atackarea = true;
+                }
+                break;
+            case Area.E_Area:
+                if (col.name == "CArea")
+                {
+                    GameObject[] cookies = null;
+                    cookies = GameObject.FindGameObjectsWithTag("Cookie").
+                    OrderBy(e => Vector3.Distance(transform.position, e.transform.position)).ToArray();
+                    EM.NearestCookie = cookies[0];
+                }
+                break;
+        }
+        
+    }
+    void OnTriggerExit(Collider col)
+    {
+        switch (area)
+        {
+            case Area.C_Area:
+                if (col.name == "EArea")
+                {
+                    CM.Atackarea = false;
+                }
+                break;
+            case Area.E_Area:
+                if (col.name == "CArea")
+                {
+                    EM.NearestCookie = null;
+                }
+                break;
+        }
+        
     }
 }

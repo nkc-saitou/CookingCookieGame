@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour {
-
-    //臨時追加　
-    public GameObject enemyCookieParent;
-
+    public GameObject prediction;
     //沸くクッキー
     public GameObject Cookie1;
     //クッキーの沸きパターン
     private int Pattern;
     //正負ランダム
     private int a;
+    public float spawntime=5f;
 	void Start () {
         StartCoroutine("ESpawn");
 	}
@@ -27,30 +25,24 @@ public class EnemySpawn : MonoBehaviour {
         switch (Pattern = Random.Range(1, 3))
         {
             case 1://上下のクッキーの沸き
-                GameObject Cookie = Instantiate(Cookie1, new Vector3(Random.Range(-5.5f, 5.5f), 5 * a, 0), Quaternion.identity, enemyCookieParent.transform);
-                EnemyMove EM = Cookie.GetComponent<EnemyMove>();
-                EM.pos = transform.position;
-                EM.pos.x = 3.5f * a; EM.pos.y = 0;
-                EM.FactryGate.x = 2 * a; EM.FactryGate.y = 0;
-                Debug.Log(EM.pos);
+                GameObject Cookie = Instantiate(prediction, new Vector3(Random.Range(-20.0f, 20.0f), 2,  12* a), Quaternion.identity);
+                Prediction PD = Cookie.GetComponent<Prediction>();
+                PD.Enemy = Cookie1;
                 break;
 
-            case 2://左右のクッキーの沸き
-                GameObject cooKie = Instantiate(Cookie1, new Vector3(9 * a, Random.Range(-4f, 4f), 0), Quaternion.identity,enemyCookieParent.transform);
-                EnemyMove _EM = cooKie.GetComponent<EnemyMove>();
-                _EM.pos = transform.position;
-                _EM.pos.x = 0; _EM.pos.y = 4.5f * a;
-                _EM.FactryGate.x = 0; _EM.FactryGate.y = 3 * a;
-                Debug.Log(_EM.pos);
+            case 2://左右
+                GameObject cooKie = Instantiate(prediction, new Vector3(20 * a, 2, Random.Range(-12f, 12f)), Quaternion.identity);
+                Prediction _PD = cooKie.GetComponent<Prediction>();
+                _PD.Enemy = Cookie1;
                 break;
         }
     }
 
     private IEnumerator ESpawn()//敵の沸き間隔
     {
-        while (true)
+        for(int i = 0; i < 36; i++)
         {
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(spawntime);
             RandomSpawnECookie();
         }
     }
