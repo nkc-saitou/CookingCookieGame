@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23241858773032552}
   m_Layer: 0
   m_Name: JamPre
-  m_TagString: Untagged
+  m_TagString: CookieJam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

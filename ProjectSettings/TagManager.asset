@@ -19,6 +19,8 @@ TagManager:
   - EnemyObj
   - ChocolateTable
   - JamTable
+  - CookieJam
+  - CookieChocolate
   layers:
   - Default
   - TransparentFX

@@ -24,6 +24,11 @@ public class TableController : MonoBehaviour
 
     int childCount = 0;
 
+    //string[] cookieType = new string[3];
+
+    ////クッキーの判別　{0(elem),0(jum),0(chocolate)} 
+    //int[] cookieType = new int[3];
+
     //----------------------------------------------------
     //　子オブジェクトがあるかどうかを調べる
     //  あったらtrue, なかったらfalseを返す
@@ -105,6 +110,8 @@ public class TableController : MonoBehaviour
         if (transform.childCount >= childCount + 1) return;
 
         if (col.tag != "CookieElem" &&
+            col.tag != "CookieJam" &&
+            col.tag != "CookieChocolate" &&
             col.tag != "CookieKnead" &&
             col.tag != "CookieBaking") return;
 
@@ -139,7 +146,7 @@ public class TableController : MonoBehaviour
         //プレイヤーに子オブジェクトがあったら終了
         if (HaveChildObj(gameObject)) return;
 
-        switch(colObj.gameObject.tag)
+        switch (colObj.gameObject.tag)
         {
             case "ElemTable":
                 //クッキーの素を生成し、プレイヤーの子オブジェクトにする
@@ -154,9 +161,9 @@ public class TableController : MonoBehaviour
                 Instantiate(tableManager.jamPre, transform);
                 break;
 
-            case "KneadTable":
-                Instantiate(tableManager.kneadPre, transform);
-                break;
+                //case "KneadTable":
+                //    Instantiate(tableManager.kneadPre, transform);
+                //    break;
         }
     }
 
@@ -172,11 +179,15 @@ public class TableController : MonoBehaviour
         try
         {
             //衝突した机がKneadTableであり、クッキーの素を持っていたら
-            if (childObj != null &
-                colObj.gameObject.tag == "KneadTable" &&
-                childObj.tag == "CookieElem" &&
-                GameController.kneadCookFlg == false)
+            if (childObj == null ||
+                colObj.gameObject.tag != "KneadTable" ||
+                GameController.kneadCookFlg != false) return;
+
+            if (childObj.tag == "CookieElem" ||
+               childObj.tag == "CookieJam" ||
+               childObj.tag == "CookieChocolate")
             {
+                ElemCookieCheck();
                 GameController.kneadNecessary += 1;
                 Destroy(childObj);
             }
@@ -184,6 +195,27 @@ public class TableController : MonoBehaviour
         catch (NullReferenceException ex)
         {
             Debug.Log("Object reference not set to an instance of an object");
+        }
+    }
+
+    //----------------------------------------------------
+    // どの種類の素材が入れられたかをチェック
+    //----------------------------------------------------
+    void ElemCookieCheck()
+    {
+        switch(childObj.tag)
+        {
+            case "CookieElem":
+                GameController.cookieType[0] += 1;
+                break;
+
+            case "CookieJam":
+                GameController.cookieType[1] += 1;
+                break;
+
+            case "CookieChocolate":
+                GameController.cookieType[2] += 1;
+                break;
         }
     }
 
@@ -249,11 +281,11 @@ public class TableController : MonoBehaviour
     }
 
     //----------------------------------------------------
-    // クッキーの素を捏ね終わるまでの時間、捏ね終わった後の処理
+    // クッキーの素を捏ね終わった後の処理
     //----------------------------------------------------
     void ElemCookEnd(GameObject colObj)
     {
-        //    子オブジェクトを持っている または
+        //子オブジェクトを持っている または
         //素が入れられてない場合は終了
         if (HaveChildObj(gameObject) ||
             GameController.kneadCookFlg == false) return;
@@ -275,9 +307,11 @@ public class TableController : MonoBehaviour
         if (HaveChildObj(gameObject) ||
             GameController.bakingCookFlg == false) return;
 
+        GameObject bakingCookieType = GameController.Instance.KneadCreateType();
+
         if (colObj.gameObject.tag == "BakingTable" && GameController.cookingTimeFlg)
         {
-            Instantiate(tableManager.bakingPre, transform);
+            Instantiate(bakingCookieType, transform);
 
             cookingStartFlg = false;
             GameController.cookingTimeFlg = false;

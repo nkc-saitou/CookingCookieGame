@@ -13,8 +13,17 @@ public class TableManager : MonoBehaviour {
     [Header("こねたクッキー")]
     public GameObject kneadPre;
 
-    [Header("焼いたクッキー")]
-    public GameObject bakingPre;
+    [Header("焼いたクッキー(ノーマル)")]
+    public GameObject bakingPre_normal;
+
+    [Header("焼いたクッキー(チョコレート)")]
+    public GameObject bakingPre_chocolate;
+
+    [Header("焼いたクッキー(ジャム)")]
+    public GameObject bakingPre_jam;
+
+    [Header("焼いたクッキー(ダークマター)")]
+    public GameObject bakingPre_darkMatter;
 
     [Header("チョコレート")]
     public GameObject chocolatePre;
