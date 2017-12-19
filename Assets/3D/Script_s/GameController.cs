@@ -87,11 +87,25 @@ public class GameController : SingletonMonoBehaviour<GameController>
         }
     }
 
-   public GameObject KneadCreateType()
+    //---------------------------------------------------
+    // 作るクッキーの取得
+    //---------------------------------------------------
+    public string KneadCreateType()
     {
-        if (cookieType[0] == 3) return tableManager.bakingPre_normal;
-        else if (cookieType[0] == 2 && cookieType[1] == 1) return tableManager.bakingPre_jam;
-        else if (cookieType[0] == 2 && cookieType[2] == 1) return tableManager.bakingPre_chocolate;
-        return tableManager.bakingPre_darkMatter;
+        if (cookieType[0] == 3) return "normalCookie";
+        else if (cookieType[0] == 2 && cookieType[1] == 1) return "jamCookie";
+        else if (cookieType[0] == 2 && cookieType[2] == 1) return "chocolateCookie";
+        else return "darkMatter";
+    }
+
+    //---------------------------------------------------
+    // クッキーの素材を初期化
+    //---------------------------------------------------
+    public void cookieTypeReset()
+    {
+        for(int i = 0; i < cookieType.Length; i++)
+        {
+            cookieType[i] = 0;
+        }
     }
 }

@@ -11,6 +11,7 @@ public class TableController : MonoBehaviour
     //----------------------------------------------------
 
     GameObject childObj; //現在持っている子オブジェクト
+    GameObject bakingCookieType;
 
     PlayerSetting playerSetting;
     GameController gameController;
@@ -160,10 +161,6 @@ public class TableController : MonoBehaviour
             case "JamTable":
                 Instantiate(tableManager.jamPre, transform);
                 break;
-
-                //case "KneadTable":
-                //    Instantiate(tableManager.kneadPre, transform);
-                //    break;
         }
     }
 
@@ -240,6 +237,8 @@ public class TableController : MonoBehaviour
                 waitCookingTime = 2.0f;
                 cookingStartFlg = true;
 
+                CheckCookieType();
+
                 Destroy(childObj);
             }
         }
@@ -292,11 +291,40 @@ public class TableController : MonoBehaviour
 
         if (colObj.gameObject.tag == "KneadTable")
         {
-            Instantiate(tableManager.kneadPre, transform);
+            GameObject knead = Instantiate(tableManager.kneadPre, transform);
 
+            CookieDateAdd(knead);
+            GameController.Instance.cookieTypeReset();
             //ボウルに何も入っていない状態にする
             GameController.kneadCookFlg = false;
         }
+    }
+
+    void CookieDateAdd(GameObject knead)
+    {
+        CookieStatus status = knead.GetComponent<CookieStatus>();
+        string createType = GameController.Instance.KneadCreateType();
+        string path = " ";
+
+        switch (createType)
+        {
+            case "normalCookie":
+                path = "NormalCookieDate";
+                break;
+
+            case "jamCookie":
+                path = "JamCookieDate";
+                break;
+
+            case "chocolateCookie":
+                path = "ChocolateCookieDate";
+                break;
+
+            case "darkMatter":
+                path = "DarkMatterDate";
+                break;
+        }
+        status.cookieDate = (CookieDate)Resources.Load("ScriptableObject/" + path);
     }
 
     //----------------------------------------------------
@@ -307,16 +335,39 @@ public class TableController : MonoBehaviour
         if (HaveChildObj(gameObject) ||
             GameController.bakingCookFlg == false) return;
 
-        GameObject bakingCookieType = GameController.Instance.KneadCreateType();
-
         if (colObj.gameObject.tag == "BakingTable" && GameController.cookingTimeFlg)
         {
-            Instantiate(bakingCookieType, transform);
-
+            GameObject baking = Instantiate(bakingCookieType, transform);
+            CookieDateAdd(baking);
             cookingStartFlg = false;
             GameController.cookingTimeFlg = false;
             GameController.bakingCookFlg = false;
         }
+    }
+
+    void CheckCookieType()
+    {
+        CookieStatus status = childObj.GetComponent<CookieStatus>();
+
+        switch(status.cookieDate.cookieKing)
+        {
+            case "normalCookie":
+                bakingCookieType = tableManager.bakingPre_normal;
+                break;
+
+            case "jamCookie":
+                bakingCookieType = tableManager.bakingPre_jam;
+                break;
+
+            case "chocolateCookie":
+                bakingCookieType = tableManager.bakingPre_chocolate;
+                break;
+
+            case "darkMatter":
+                bakingCookieType = tableManager.bakingPre_darkMatter;
+                break;
+        }
+        Debug.Log(status.cookieDate.cookieKing);
     }
 
     //----------------------------------------------------
