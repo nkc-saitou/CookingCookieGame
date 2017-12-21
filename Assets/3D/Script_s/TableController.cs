@@ -11,6 +11,7 @@ public class TableController : MonoBehaviour
     //----------------------------------------------------
 
     GameObject childObj; //現在持っている子オブジェクト
+    GameObject bakingCookieType;
 
     PlayerSetting playerSetting;
     GameController gameController;
@@ -23,6 +24,8 @@ public class TableController : MonoBehaviour
     float waitCookingTime = 1.0f; //調理にかかる時間
 
     int childCount = 0;
+
+    string cookieType;
 
     //string[] cookieType = new string[3];
 
@@ -160,10 +163,6 @@ public class TableController : MonoBehaviour
             case "JamTable":
                 Instantiate(tableManager.jamPre, transform);
                 break;
-
-                //case "KneadTable":
-                //    Instantiate(tableManager.kneadPre, transform);
-                //    break;
         }
     }
 
@@ -240,6 +239,9 @@ public class TableController : MonoBehaviour
                 waitCookingTime = 2.0f;
                 cookingStartFlg = true;
 
+                CheckCookieType();
+                
+
                 Destroy(childObj);
             }
         }
@@ -292,8 +294,10 @@ public class TableController : MonoBehaviour
 
         if (colObj.gameObject.tag == "KneadTable")
         {
-            Instantiate(tableManager.kneadPre, transform);
+            GameObject knead = Instantiate(tableManager.kneadPre, transform);
 
+            GameController.Instance.CookieDateAdd(knead,GameController.Instance.KneadCreateType());
+            GameController.Instance.cookieTypeReset();
             //ボウルに何も入っていない状態にする
             GameController.kneadCookFlg = false;
         }
@@ -307,16 +311,45 @@ public class TableController : MonoBehaviour
         if (HaveChildObj(gameObject) ||
             GameController.bakingCookFlg == false) return;
 
-        GameObject bakingCookieType = GameController.Instance.KneadCreateType();
-
         if (colObj.gameObject.tag == "BakingTable" && GameController.cookingTimeFlg)
         {
-            Instantiate(bakingCookieType, transform);
+            GameObject baking = Instantiate(bakingCookieType, transform);
+
+            GameController.Instance.CookieDateAdd(baking,cookieType);
 
             cookingStartFlg = false;
             GameController.cookingTimeFlg = false;
             GameController.bakingCookFlg = false;
         }
+    }
+
+    void CheckCookieType()
+    {
+        CookieStatus status = childObj.GetComponent<CookieStatus>();
+
+        switch(status.cookieDate.cookieKing)
+        {
+            case "normalCookie":
+                bakingCookieType = tableManager.bakingPre_normal;
+                cookieType = "normalCookie";
+                break;
+
+            case "jamCookie":
+                bakingCookieType = tableManager.bakingPre_jam;
+                cookieType = "jamCookie";
+                break;
+
+            case "chocolateCookie":
+                bakingCookieType = tableManager.bakingPre_chocolate;
+                cookieType = "chocolateCookie";
+                break;
+
+            case "darkMatter":
+                bakingCookieType = tableManager.bakingPre_darkMatter;
+                cookieType = "darkMatter";
+                break;
+        }
+        Debug.Log(status.cookieDate.cookieKing);
     }
 
     //----------------------------------------------------
