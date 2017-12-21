@@ -9,13 +9,16 @@ public class EnemyMove : MonoBehaviour {
     public enum MovePattern {_Stalking,_Wall,_NormalMove,_CookieAtack,_Death}
     MovePattern movepattern=MovePattern._NormalMove;
 
-    NavMeshAgent NMA;
+    private Vector3 raydirection;
+    private Ray ray;
+    private RaycastHit rayhit;
+    private int distance=10;
 
     // 現在位置
     private Vector3 Position;
     public int _HP = 1;
     //速さ
-    private Vector3 speed=new Vector3(0.1f,0f,0.1f);
+    private Vector3 speed=new Vector3(0.04f,0f,0.04f);
 
     // ラジアン
     private float rad;
@@ -36,8 +39,6 @@ public class EnemyMove : MonoBehaviour {
     }
 
     void Start () {
-        NMA = GetComponent<NavMeshAgent>();
-        NMA.stoppingDistance = 0.5f;
     }
 
     void Update()
@@ -60,18 +61,41 @@ public class EnemyMove : MonoBehaviour {
                     movepattern = MovePattern._CookieAtack;
                     break;
                 }
+                Vector3 raydirection = (nearestCookie.transform.position - transform.position).normalized;
+                ray = new Ray(transform.position, raydirection);
+                if (Physics.Raycast(ray, out rayhit, distance))
+                {
+                    if (rayhit.collider.tag == "Cookie" || rayhit.collider.tag == "CookieMine")
+                    {
+                        Stalking();
+                        break;
+                    }
+                    else
+                    {
+                        movepattern = MovePattern._NormalMove;
+                        break;
+                    }
+                }
                 Stalking();
                 break;
 
             case MovePattern._NormalMove:
+                if (nearestCookie != null)
+                {
+                    raydirection = (nearestCookie.transform.position - transform.position).normalized;
+                    ray = new Ray(transform.position, raydirection);
+                    if (Physics.Raycast(ray, out rayhit, distance))
+                    {
+                        if (rayhit.collider.tag == "Cookie"||rayhit.collider.tag=="CookieMine")
+                        {
+                            movepattern = MovePattern._Stalking;
+                            break;
+                        }
+                    }
+                }
                 if (wall)
                 {
                     movepattern = MovePattern._Wall;
-                    break;
-                }
-                if (nearestCookie != null)
-                {
-                    movepattern = MovePattern._Stalking;
                     break;
                 }
                 NormalMove();
@@ -80,8 +104,16 @@ public class EnemyMove : MonoBehaviour {
             case MovePattern._Wall:
                 if (nearestCookie != null)
                 {
-                    movepattern = MovePattern._Stalking;
-                    break;
+                    raydirection = (nearestCookie.transform.position - transform.position).normalized;
+                    ray = new Ray(transform.position, raydirection);
+                    if (Physics.Raycast(ray, out rayhit, distance))
+                    {
+                        if (rayhit.collider.tag == "Cookie" || rayhit.collider.tag == "CookieMine")
+                        {
+                            movepattern = MovePattern._Stalking;
+                            break;
+                        }
+                    }
                 }
                 if (wall == false)
                 {
@@ -109,14 +141,13 @@ public class EnemyMove : MonoBehaviour {
     
     void Stalking()
     {
-        NMA.SetDestination(nearestCookie.transform.position);
-        /*    rad = Mathf.Atan2(
+            rad = Mathf.Atan2(
                 nearestCookie.transform.position.z - transform.position.z,
                 nearestCookie.transform.position.x - transform.position.x);
         Position = transform.position;
         Position.x += speed.x * Mathf.Cos(rad);
         Position.z += speed.z * Mathf.Sin(rad);
-        transform.position = Position;*/
+        transform.position = Position;
     }
 
     void NormalMove()
@@ -144,9 +175,9 @@ public class EnemyMove : MonoBehaviour {
     {
         Destroy(gameObject);
     }
-    void OnTriggerStay(Collider col)
+    void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Cookie")
+        if (col.tag == "Cookie"||col.tag=="CookieMine")
         {
             nearflg = true;
         }
@@ -159,7 +190,7 @@ public class EnemyMove : MonoBehaviour {
 
     void OnTriggerExit(Collider col)
     {
-        if (col.tag == "Cookie")
+        if (col.tag == "Cookie"||col.tag=="CookieMine")
         {
             nearflg = false;
         }

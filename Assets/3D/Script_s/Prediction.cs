@@ -16,6 +16,7 @@ public class Prediction : MonoBehaviour {
 	}
     void Update()
     {
+        //不要になったら削除する内容
         transform.localScale+=new Vector3(0f,0.003f,0f);
         transform.position -= new Vector3(0f, 0.003f, 0f);
         if (transform.localScale.y >= 1)

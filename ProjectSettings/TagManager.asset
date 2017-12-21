@@ -23,6 +23,7 @@ TagManager:
   - CookieChocolate
   - ChocolateTable
   - JamTable
+  - CookieMine
   layers:
   - Default
   - TransparentFX

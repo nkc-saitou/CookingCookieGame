@@ -8,10 +8,15 @@ public class CookieMove : MonoBehaviour {
     //行動パターン
     public enum MovePattern { _Wait, _Search, _Stalking, _Atack, _Death }
     MovePattern movepattern = MovePattern._Wait;
+
     NavMeshAgent NMA;
-    NavMeshHit hit;
+
     //視界に入っているか
     private bool vision;
+    private Ray ray;
+    private RaycastHit rayhit;
+    //Rayの距離
+    private int distance = 3;
 
     // 現在位置
     private Vector3 Position;
@@ -45,7 +50,6 @@ public class CookieMove : MonoBehaviour {
     void Start()
     {
         NMA = GetComponent<NavMeshAgent>();
-        NMA.stoppingDistance = 4f;
     }
 
     void Update()
@@ -68,10 +72,19 @@ public class CookieMove : MonoBehaviour {
 
             case MovePattern._Search:
                 wai = true;
-                if (GameObject.FindGameObjectWithTag("Enemy")||GameObject.FindGameObjectWithTag("Prediction"))
+                if (GameObject.FindGameObjectWithTag("Enemy"))
                 {
                     atackarea = false;
                     movepattern = MovePattern._Stalking;
+                    NMA.stoppingDistance = 0f;
+                    NMA.autoBraking = false;
+                    break;
+                }
+                else if (GameObject.FindGameObjectWithTag("Prediction"))
+                {
+                    atackarea = false;
+                    movepattern = MovePattern._Stalking;
+                    NMA.stoppingDistance = 4f;
                     NMA.autoBraking = false;
                     break;
                 }
@@ -129,15 +142,19 @@ public class CookieMove : MonoBehaviour {
         {
             return;
         }
-        else if (NMA.Raycast(nearestEnemy.transform.position, out hit))
+        Vector3 raydirection = (nearestEnemy.transform.position - transform.position).normalized;
+        ray = new Ray(transform.position, raydirection);
+        if (Physics.SphereCast(ray, 1f,out rayhit, distance))
         {
-            vision = false;
+            if (rayhit.collider.tag == "Enemy")
+            {
+                vision = true;
+            }
+            else
+            {
+                vision = false;
+            }
         }
-        else
-        {
-            vision = true;
-        }
-
         NMA.speed = 4;
         NMA.SetDestination(nearestEnemy.transform.position);
     }
@@ -146,8 +163,6 @@ public class CookieMove : MonoBehaviour {
     {
         if (nearestEnemy != null)
         {
-            /*NMA.speed = 20;
-            NMA.SetDestination(nearestEnemy.transform.position);*/
             rad = Mathf.Atan2(
                 nearestEnemy.transform.position.z - transform.position.z,
                 nearestEnemy.transform.position.x - transform.position.x);
