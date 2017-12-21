@@ -25,6 +25,8 @@ public class TableController : MonoBehaviour
 
     int childCount = 0;
 
+    string cookieType;
+
     //string[] cookieType = new string[3];
 
     ////クッキーの判別　{0(elem),0(jum),0(chocolate)} 
@@ -238,6 +240,7 @@ public class TableController : MonoBehaviour
                 cookingStartFlg = true;
 
                 CheckCookieType();
+                
 
                 Destroy(childObj);
             }
@@ -293,38 +296,11 @@ public class TableController : MonoBehaviour
         {
             GameObject knead = Instantiate(tableManager.kneadPre, transform);
 
-            CookieDateAdd(knead);
+            GameController.Instance.CookieDateAdd(knead,GameController.Instance.KneadCreateType());
             GameController.Instance.cookieTypeReset();
             //ボウルに何も入っていない状態にする
             GameController.kneadCookFlg = false;
         }
-    }
-
-    void CookieDateAdd(GameObject knead)
-    {
-        CookieStatus status = knead.GetComponent<CookieStatus>();
-        string createType = GameController.Instance.KneadCreateType();
-        string path = " ";
-
-        switch (createType)
-        {
-            case "normalCookie":
-                path = "NormalCookieDate";
-                break;
-
-            case "jamCookie":
-                path = "JamCookieDate";
-                break;
-
-            case "chocolateCookie":
-                path = "ChocolateCookieDate";
-                break;
-
-            case "darkMatter":
-                path = "DarkMatterDate";
-                break;
-        }
-        status.cookieDate = (CookieDate)Resources.Load("ScriptableObject/" + path);
     }
 
     //----------------------------------------------------
@@ -338,7 +314,9 @@ public class TableController : MonoBehaviour
         if (colObj.gameObject.tag == "BakingTable" && GameController.cookingTimeFlg)
         {
             GameObject baking = Instantiate(bakingCookieType, transform);
-            CookieDateAdd(baking);
+
+            GameController.Instance.CookieDateAdd(baking,cookieType);
+
             cookingStartFlg = false;
             GameController.cookingTimeFlg = false;
             GameController.bakingCookFlg = false;
@@ -353,18 +331,22 @@ public class TableController : MonoBehaviour
         {
             case "normalCookie":
                 bakingCookieType = tableManager.bakingPre_normal;
+                cookieType = "normalCookie";
                 break;
 
             case "jamCookie":
                 bakingCookieType = tableManager.bakingPre_jam;
+                cookieType = "jamCookie";
                 break;
 
             case "chocolateCookie":
                 bakingCookieType = tableManager.bakingPre_chocolate;
+                cookieType = "chocolateCookie";
                 break;
 
             case "darkMatter":
                 bakingCookieType = tableManager.bakingPre_darkMatter;
+                cookieType = "darkMatter";
                 break;
         }
         Debug.Log(status.cookieDate.cookieKing);

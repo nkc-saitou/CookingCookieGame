@@ -338,11 +338,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4092073131193546}
   - component: {fileID: 95998396638972350}
-  - component: {fileID: 136640789987330702}
   - component: {fileID: 114524231645385322}
   - component: {fileID: 54665214733890352}
   - component: {fileID: 195422473087781652}
-  - component: {fileID: 136162534491599336}
+  - component: {fileID: 65344364720523244}
+  - component: {fileID: 65024697420275956}
   m_Layer: 0
   m_Name: EnemyCookie
   m_TagString: Enemy
@@ -388,7 +388,7 @@ Transform:
   m_GameObject: {fileID: 1299970552454440}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.12, y: 0.26, z: 0.23}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 3.118593, y: 3.1185925, z: 3.1185925}
   m_Children: []
   m_Father: {fileID: 4092073131193546}
   m_RootOrder: 6
@@ -726,11 +726,35 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!65 &65024697420275956
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887759784344840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 4, z: 1.5}
+  m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!65 &65344364720523244
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887759784344840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 3, y: 4, z: 1.5}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!95 &95998396638972350
 Animator:
   serializedVersion: 3
@@ -783,32 +807,6 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.56
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &136162534491599336
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1887759784344840}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &136640789987330702
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1887759784344840}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137718347504014710
 SkinnedMeshRenderer:

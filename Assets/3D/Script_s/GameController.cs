@@ -108,4 +108,31 @@ public class GameController : SingletonMonoBehaviour<GameController>
             cookieType[i] = 0;
         }
     }
+
+    public void CookieDateAdd(GameObject knead,string type)
+    {
+        CookieStatus status = knead.GetComponent<CookieStatus>();
+        string createType = type;
+        string path = " ";
+
+        switch (createType)
+        {
+            case "normalCookie":
+                path = "NormalCookieDate";
+                break;
+
+            case "jamCookie":
+                path = "JamCookieDate";
+                break;
+
+            case "chocolateCookie":
+                path = "ChocolateCookieDate";
+                break;
+
+            case "darkMatter":
+                path = "DarkMatterDate";
+                break;
+        }
+        status.cookieDate = (CookieDate)Resources.Load("ScriptableObject/" + path);
+    }
 }

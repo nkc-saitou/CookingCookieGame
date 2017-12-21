@@ -8,8 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public class DirectionName
 {
-    [SerializeField]
-    string name = "東";
+    public string name = " ";
     
     [Header("工場内のオブジェクト")]
     public GameObject destroyObj;
@@ -33,13 +32,16 @@ public class DirectionName
 
 public class ExitTableController : MonoBehaviour
 {
-    public GameObject cookieSoldierPre; //作ったクッキーのPrefab
+    [Header("ノーマルクッキー")]
+    public GameObject normalSoldier; //作ったクッキーのPrefab
+    [Header("ジャムクッキー")]
+    public GameObject jamSoldier;
+    [Header("チョコレートクッキー")]
+    public GameObject chocolateSoldier;
+
     public DirectionName[] directionName;
 
-    void Start()
-    {
-
-    }
+    GameObject soldier;
 
     void Update()
     {
@@ -48,14 +50,32 @@ public class ExitTableController : MonoBehaviour
             //子オブジェクトがある状態だったら
             if (n.destroyObj.transform.childCount >= 1)
             {
-                //中で作ったクッキーを削除
-                Destroy(n.destroyObj.transform.GetChild(0).gameObject);
+                GameObject childObj = n.destroyObj.transform.GetChild(0).gameObject;
+                CookieStatus status = childObj.GetComponent<CookieStatus>();
+
+                switch (status.cookieDate.cookieKing)
+                {
+                    case "normalCookie":
+                        soldier = normalSoldier;
+                        break;
+
+                    case "jamCookie":
+                        soldier = jamSoldier;
+                        break;
+
+                    case "chocolateCookie":
+                        soldier = chocolateSoldier;
+                        break;
+                }
 
                 //外にクッキーを出す
                 Instantiate(
-                    cookieSoldierPre, 
-                    directionName[(int)n.dirName].createObj.transform.localPosition, 
+                    soldier, 
+                    directionName[(int)n.dirName].createObj.transform.localPosition,
                     Quaternion.identity,directionName[(int)n.dirName].createObj.transform);
+
+                //中で作ったクッキーを削除
+                Destroy(childObj);
             }
         }
     }
