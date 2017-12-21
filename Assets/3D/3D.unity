@@ -1316,10 +1316,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a979ace7b4544f24db1006243a6201b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalSoldier: {fileID: 1214137530799420, guid: 3421b7e70df742143acfaaf7af1a31b7,
+  normalSoldier: {fileID: 1685675983122490, guid: 6498668187e71c04bbf2c4978f1e4bce,
     type: 2}
-  jamSoldier: {fileID: 1130673669811584, guid: 77e18ad640b2fb44b869d76adacb5a97, type: 2}
-  chocolateSoldier: {fileID: 1289465299094158, guid: 0bbe6e2b08dd9b54b9c2ba3f17828a6d,
+  jamSoldier: {fileID: 1685675983122490, guid: 6498668187e71c04bbf2c4978f1e4bce, type: 2}
+  chocolateSoldier: {fileID: 1409522205759048, guid: 55e801caae8d0a543b88ba6886b5ac22,
     type: 2}
   directionName:
   - name: "\u5317"
